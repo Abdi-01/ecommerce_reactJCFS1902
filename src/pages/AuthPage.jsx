@@ -31,6 +31,32 @@ class AuthPage extends React.Component {
             })
     }
 
+    btRegis=()=>{
+        if(this.usernameRegis.value==""|| this.emailRegis.value==""||this.passwordRegis.value==""||this.confPasswordRegis==""){
+            alert("Lengkapi semua data")
+        }else{
+            if(this.passwordRegis.value==this.confPasswordRegis.value){
+                if(this.emailRegis.value.includes("@")){
+                    axios.post(`${API_URL}/users`,{
+                        username:this.usernameRegis.value,
+                        email:this.emailRegis.value,
+                        password:this.passwordRegis.value,
+                        role:"user",
+                        status:"Active"
+                    }).then((response)=>{
+                        alert("Registrasi Berhasil")
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }else{
+                    alert("Email salah")
+                }
+            }else{
+                alert("Password tidak sesuai")
+            }
+        }
+    }
+
     btShowPassLogin = () => {
         if (this.state.logPassType == "password") {
             this.setState({
@@ -110,7 +136,7 @@ class AuthPage extends React.Component {
                             <Label for="textPassword">Konfirmasi Password</Label>
                             <InputGroup>
                                 <Input type={this.state.regPassType} id="textPassword" placeholder="Konfirmasi Password Anda"
-                                    innerRef={(element) => this.passwordRegis = element} />
+                                    innerRef={(element) => this.confPasswordRegis = element} />
                                 <InputGroupText style={{ cursor: "pointer" }} onClick={this.btShowPassRegis}>
                                     {this.state.regPassShow}
                                 </InputGroupText>
