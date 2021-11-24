@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Navbar, NavbarBrand, NavbarText, Button, NavItem, NavLink, Collapse, Nav, NavbarToggler } from 'reactstrap';
 
 class NavbarComponent extends React.Component {
@@ -12,14 +13,17 @@ class NavbarComponent extends React.Component {
         return (
             <Navbar expand="md">
                 <NavbarBrand>
-                    Ecommerce
+                    <Link to="/">
+                        <img src="https://www.sipayo.com/wp-content/uploads/2017/12/e-commerce.png"
+                            width="50px" alt="logo-brand" />
+                    </Link>
                 </NavbarBrand>
                 <NavbarToggler onClick={() => this.setState({ openCollapse: !this.state.openCollapse })} />
                 <Collapse isOpen={this.state.openCollapse} navbar>
                     <Nav>
                         <NavItem>
                             <NavLink>
-                                Products
+                                Products Management
                             </NavLink>
                         </NavItem>
                         <NavItem>
@@ -28,7 +32,9 @@ class NavbarComponent extends React.Component {
                             </NavLink>
                         </NavItem>
                     </Nav>
-                    <Button type="button" style={{ marginLeft: "auto" }}>Masuk dan Daftar</Button>
+                    <Link to="/auth-page" style={{ marginLeft: "auto" }}>
+                        <Button type="button" color="warning" outline >Masuk dan Daftar</Button>
+                    </Link>
                 </Collapse>
             </Navbar>
         );
