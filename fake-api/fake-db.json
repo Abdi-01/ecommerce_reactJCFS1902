@@ -1,12 +1,28 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "username": "Admin-01",
-            "email": "admin@mail.com",
-            "password": "1234",
-            "role": "admin",
-            "status": "Active"
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "username": "Admin-01",
+      "email": "admin@mail.com",
+      "password": "1234",
+      "role": "admin",
+      "status": "Active"
+    },
+    {
+      "username": "abdi",
+      "email": "abdi@mail.com",
+      "password": "1234",
+      "role": "user",
+      "status": "Active",
+      "id": 2
+    },
+    {
+      "username": "edo",
+      "email": "edo@mail.com",
+      "password": "1234",
+      "role": "user",
+      "status": "Active",
+      "id": 3
+    }
+  ]
 }

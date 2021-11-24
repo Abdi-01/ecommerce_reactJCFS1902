@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label } from 'reactstrap';
+import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
 const API_URL = "http://localhost:2000"
 
@@ -12,7 +12,11 @@ class AuthPage extends React.Component {
             logPassShow: "Show",
             logPassType: "password",
             regPassShow: "Show",
-            regPassType: "password"
+            regPassType: "password",
+            toastOpen: false,
+            toastHeader: "",
+            toastMessage: "",
+            toastIcon: ""
         }
     }
 
@@ -31,28 +35,48 @@ class AuthPage extends React.Component {
             })
     }
 
-    btRegis=()=>{
-        if(this.usernameRegis.value==""|| this.emailRegis.value==""||this.passwordRegis.value==""||this.confPasswordRegis==""){
-            alert("Lengkapi semua data")
-        }else{
-            if(this.passwordRegis.value==this.confPasswordRegis.value){
-                if(this.emailRegis.value.includes("@")){
-                    axios.post(`${API_URL}/users`,{
-                        username:this.usernameRegis.value,
-                        email:this.emailRegis.value,
-                        password:this.passwordRegis.value,
-                        role:"user",
-                        status:"Active"
-                    }).then((response)=>{
-                        alert("Registrasi Berhasil")
-                    }).catch((err)=>{
+    btRegis = () => {
+        if (this.usernameRegis.value == "" || this.emailRegis.value == "" || this.passwordRegis.value == "" || this.confPasswordRegis == "") {
+            this.setState({
+                toastOpen:true,
+                toastHeader:"Register Warning",
+                toastIcon:"warning",
+                toastMessage:"Isi semua form"
+            })
+        } else {
+            if (this.passwordRegis.value == this.confPasswordRegis.value) {
+                if (this.emailRegis.value.includes("@")) {
+                    axios.post(`${API_URL}/users`, {
+                        username: this.usernameRegis.value,
+                        email: this.emailRegis.value,
+                        password: this.passwordRegis.value,
+                        role: "user",
+                        status: "Active"
+                    }).then((response) => {
+                        this.setState({
+                            toastOpen:true,
+                            toastHeader:"Register Status",
+                            toastIcon:"success",
+                            toastMessage:"Registrasi Berhasil ✅"
+                        })
+                    }).catch((err) => {
                         console.log(err)
                     })
-                }else{
-                    alert("Email salah")
+                } else {
+                    this.setState({
+                        toastOpen:true,
+                        toastHeader:"Register Warning",
+                        toastIcon:"warning",
+                        toastMessage:"Email salah"
+                    })
                 }
-            }else{
-                alert("Password tidak sesuai")
+            } else {
+                this.setState({
+                    toastOpen:true,
+                    toastHeader:"Register Warning",
+                    toastIcon:"warning",
+                    toastMessage:"Password tidak sesuai"
+                })
             }
         }
     }
@@ -88,6 +112,17 @@ class AuthPage extends React.Component {
     render() {
         return (
             <Container className="p-5">
+                <div>
+                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed" }}>
+                        <ToastHeader icon={this.state.toastIcon}
+                            toggle={() => this.setState({ toastOpen: false })}>
+                            {this.state.toastHeader}
+                        </ToastHeader>
+                        <ToastBody>
+                            {this.state.toastMessage}
+                        </ToastBody>
+                    </Toast>
+                </div>
                 <h2 style={{ fontWeight: "bold", textAlign: "center" }}>Pilihan Masuk</h2>
                 <p className="text-center">Masuk dan selesaikan pesanan dengan data diri anda atau daftar untuk menikmati semua layanan</p>
                 <div className="row">
@@ -142,7 +177,7 @@ class AuthPage extends React.Component {
                                 </InputGroupText>
                             </InputGroup>
                         </FormGroup>
-                        <Button color="primary" style={{ width: "100%" }} onClick={this.btLogin}>Daftar</Button>
+                        <Button color="primary" style={{ width: "100%" }} onClick={this.btRegis}>Daftar</Button>
                     </div>
                 </div>
             </Container>
