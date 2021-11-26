@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, NavbarBrand, NavbarText, Button, NavItem, NavLink, Collapse, Nav, NavbarToggler } from 'reactstrap';
+import { connect } from 'react-redux'
 
 class NavbarComponent extends React.Component {
     constructor(props) {
@@ -32,13 +33,25 @@ class NavbarComponent extends React.Component {
                             </NavLink>
                         </NavItem>
                     </Nav>
-                    <Link to="/auth-page" style={{ marginLeft: "auto" }}>
-                        <Button type="button" color="warning" outline >Masuk dan Daftar</Button>
-                    </Link>
+                    {
+                        this.props.username
+                            ?
+                            <p style={{marginLeft:"auto", display:'flex'}}>Hello,<p style={{fontWeight:"bold"}}>{this.props.username}</p></p>
+                            :
+                            < Link to="/auth-page" style={{ marginLeft: "auto" }}>
+                                <Button type="button" color="warning" outline >Masuk dan Daftar</Button>
+                            </Link>
+                    }
                 </Collapse>
-            </Navbar>
+            </Navbar >
         );
     }
 }
 
-export default NavbarComponent;
+const mapToProps = (state) => {
+    return {
+        username: state.userReducer.username
+    }
+}
+
+export default connect(mapToProps)(NavbarComponent);

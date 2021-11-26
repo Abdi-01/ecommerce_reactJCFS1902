@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { loginAction } from '../redux/actions';
+import { connect } from 'react-redux'
 
 const API_URL = "http://localhost:2000"
 
@@ -29,7 +31,8 @@ class AuthPage extends React.Component {
 
         axios.get(`${API_URL}/users?email=${this.state.email}&password=${this.passwordLogin.value}`)
             .then((response) => {
-                console.log(response.data)
+                console.log("RESPONSE LOGIN==> ",response.data)
+                this.props.loginAction(response.data[0])
             }).catch((err) => {
                 console.log(err)
             })
@@ -38,10 +41,10 @@ class AuthPage extends React.Component {
     btRegis = () => {
         if (this.usernameRegis.value == "" || this.emailRegis.value == "" || this.passwordRegis.value == "" || this.confPasswordRegis == "") {
             this.setState({
-                toastOpen:true,
-                toastHeader:"Register Warning",
-                toastIcon:"warning",
-                toastMessage:"Isi semua form"
+                toastOpen: true,
+                toastHeader: "Register Warning",
+                toastIcon: "warning",
+                toastMessage: "Isi semua form"
             })
         } else {
             if (this.passwordRegis.value == this.confPasswordRegis.value) {
@@ -54,28 +57,28 @@ class AuthPage extends React.Component {
                         status: "Active"
                     }).then((response) => {
                         this.setState({
-                            toastOpen:true,
-                            toastHeader:"Register Status",
-                            toastIcon:"success",
-                            toastMessage:"Registrasi Berhasil ✅"
+                            toastOpen: true,
+                            toastHeader: "Register Status",
+                            toastIcon: "success",
+                            toastMessage: "Registrasi Berhasil ✅"
                         })
                     }).catch((err) => {
                         console.log(err)
                     })
                 } else {
                     this.setState({
-                        toastOpen:true,
-                        toastHeader:"Register Warning",
-                        toastIcon:"warning",
-                        toastMessage:"Email salah"
+                        toastOpen: true,
+                        toastHeader: "Register Warning",
+                        toastIcon: "warning",
+                        toastMessage: "Email salah"
                     })
                 }
             } else {
                 this.setState({
-                    toastOpen:true,
-                    toastHeader:"Register Warning",
-                    toastIcon:"warning",
-                    toastMessage:"Password tidak sesuai"
+                    toastOpen: true,
+                    toastHeader: "Register Warning",
+                    toastIcon: "warning",
+                    toastMessage: "Password tidak sesuai"
                 })
             }
         }
@@ -185,4 +188,5 @@ class AuthPage extends React.Component {
     }
 }
 
-export default AuthPage;
+
+export default connect(null, { loginAction })(AuthPage);
