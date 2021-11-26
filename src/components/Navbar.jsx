@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, NavbarBrand, NavbarText, Button, NavItem, NavLink, Collapse, Nav, NavbarToggler } from 'reactstrap';
+import { Navbar, NavbarBrand, NavbarText, Button, NavItem, NavLink, Collapse, Nav, NavbarToggler, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { connect } from 'react-redux'
 
 class NavbarComponent extends React.Component {
@@ -21,14 +21,14 @@ class NavbarComponent extends React.Component {
                 </NavbarBrand>
                 <NavbarToggler onClick={() => this.setState({ openCollapse: !this.state.openCollapse })} />
                 <Collapse isOpen={this.state.openCollapse} navbar>
-                    <Nav>
+                    <Nav >
                         <NavItem>
-                            <Link to="/product-management" className="nav-link">
-                                Products Management
-                            </Link>
+                            <NavLink style={{ color: "#2d3436", fontWeight: "bold" }}>
+                                Products
+                            </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>
+                            <NavLink style={{ color: "#2d3436", fontWeight: "bold" }}>
                                 About
                             </NavLink>
                         </NavItem>
@@ -36,7 +36,53 @@ class NavbarComponent extends React.Component {
                     {
                         this.props.username
                             ?
-                            <p style={{marginLeft:"auto", display:'flex'}}>Hello,<p style={{fontWeight:"bold"}}>{this.props.username}</p></p>
+                            <UncontrolledDropdown style={{ marginLeft: "auto" }}>
+                                <DropdownToggle caret nav size="sm" outline className="d-flex align-items-center" style={{ color: "#0984e3" }}>
+                                    Hello,<b style={{ fontWeight: "bold" }}>{this.props.username}</b>
+                                </DropdownToggle>
+                                {
+                                    this.props.role == "user"
+                                        ?
+                                        <DropdownMenu right>
+                                            <DropdownItem>
+                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none" }}>
+                                                    Cart
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
+                                                    Transactions
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
+                                                    Profile
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem divider/>
+                                            <DropdownItem>
+                                                Keluar
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                        :
+                                        <DropdownMenu right >
+                                            <DropdownItem>
+                                                <Link to="/product-management" style={{ color: "#2d3436" }} className="nav-link">
+                                                    Products Management
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                <Link to="/product-management" style={{ color: "#2d3436" }} className="nav-link">
+                                                    Transactions Management
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem divider/>
+                                            <DropdownItem>
+                                                Keluar
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                }
+                            </UncontrolledDropdown>
                             :
                             < Link to="/auth-page" style={{ marginLeft: "auto" }}>
                                 <Button type="button" color="warning" outline >Masuk dan Daftar</Button>
@@ -50,7 +96,8 @@ class NavbarComponent extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        username: state.userReducer.username
+        username: state.userReducer.username,
+        role: state.userReducer.role
     }
 }
 
