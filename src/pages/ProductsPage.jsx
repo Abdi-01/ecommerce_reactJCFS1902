@@ -15,6 +15,9 @@ class ProductsPage extends React.Component {
                     <option value="nama-desc">Z-A</option>
                     <option value="id-asc">Reset</option>
                 </Input>
+                <div className="container row">
+
+                </div>
             </div>
         );
     }
