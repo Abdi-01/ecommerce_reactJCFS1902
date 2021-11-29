@@ -1,11 +1,12 @@
 const INITIAL_STATE = {
-    productList: []
+    productsList: []
 }
 
-export const productsreducer = (state = INITIAL_STATE, action) => {
+export const productsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case "GET_DATA_PRODUCTS":
-            return { ...state, productList: action.payload };
+            console.log("cek product", action.payload)
+            return { ...state, productsList: action.payload };
         default:
             return state;
     }

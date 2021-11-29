@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { Table, Button } from 'reactstrap';
 import ModalEditProduct from '../components/ModalEditProduct';
 import ModalProduct from '../components/ModalProduct';
-
-const API_URL = "http://localhost:2000"
-
+import { API_URL } from '../helper';
 class ProductManagement extends Component {
     constructor(props) {
         super(props);

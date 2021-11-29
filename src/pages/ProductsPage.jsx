@@ -1,10 +1,16 @@
 import React from 'react';
 import { Input } from 'reactstrap'
+import { connect } from 'react-redux';
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {}
     }
+
+    printProducts = () => {
+
+    }
+
     render() {
         return (
             <div className="container">
@@ -23,4 +29,11 @@ class ProductsPage extends React.Component {
     }
 }
 
-export default ProductsPage;
+const mapToProps = ({ productsReducer }) => {
+    console.table(productsReducer.productsList)
+    return {
+        productsList: productsReducer.productsList
+    }
+}
+
+export default connect(mapToProps)(ProductsPage);

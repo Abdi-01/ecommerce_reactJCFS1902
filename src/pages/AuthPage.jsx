@@ -4,8 +4,7 @@ import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label,
 import { loginAction } from '../redux/actions';
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-
-const API_URL = "http://localhost:2000"
+import { API_URL } from '../helper';
 
 class AuthPage extends React.Component {
     constructor(props) {
