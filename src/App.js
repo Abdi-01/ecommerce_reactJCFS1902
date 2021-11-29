@@ -9,6 +9,7 @@ import ProductManagement from './pages/ProductManagement';
 import axios from 'axios';
 import { connect } from 'react-redux'
 import { loginAction } from './redux/actions'
+import ProductsPage from './pages/ProductsPage';
 
 const API_URL = "http://localhost:2000"
 class App extends React.Component {
@@ -23,14 +24,15 @@ class App extends React.Component {
 
   keepLogin = () => {
     let local = JSON.parse(localStorage.getItem("data"));
-
-    axios.get(`${API_URL}/users?email=${local.email}&password${local.password}`)
-      .then((res) => {
-        console.log("keepLogin berhasil ==>", res.data)
-        this.props.loginAction(res.data[0])
-      }).catch((err) => {
-        console.log(err)
-      })
+    if (local) {
+      axios.get(`${API_URL}/users?email=${local.email}&password${local.password}`)
+        .then((res) => {
+          console.log("keepLogin berhasil ==>", res.data)
+          this.props.loginAction(res.data[0])
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
   render() {
@@ -41,6 +43,7 @@ class App extends React.Component {
           <Route path="/" element={<HomePage />} />
           <Route path="/auth-page" element={<AuthPage />} />
           <Route path="/product-management" element={<ProductManagement />} />
+          <Route path="/products" element={<ProductsPage/>} />
         </Routes>
       </div>
     );

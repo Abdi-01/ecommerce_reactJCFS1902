@@ -49,6 +49,32 @@
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810719_PE771386_S4.jpg"
       ],
       "id": 1
+    },
+    {
+      "nama": "HAUGA V.2",
+      "brand": "Mr. DYI",
+      "deskripsi": "Mudah untuk menyembunyikan kabel dan stopkontak tapi tetap dapat dijangkau dengan jalur kabel di bagian belakang.",
+      "kategori": "Perabotan",
+      "harga": 1200000,
+      "stock": [
+        {
+          "id": null,
+          "type": "Black",
+          "qty": 5
+        },
+        {
+          "id": null,
+          "type": "White",
+          "qty": 10
+        }
+      ],
+      "images": [
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955765_PE804101_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/594/0959497_PE806037_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/727/0972709_PE811745_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955706_PE803970_S4.jpg"
+      ],
+      "id": 2
     }
   ]
 }

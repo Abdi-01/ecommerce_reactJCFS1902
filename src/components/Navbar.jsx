@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, NavbarBrand, NavbarText, Button, NavItem, NavLink, Collapse, Nav, NavbarToggler, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { connect } from 'react-redux'
-
+import { logOutAction } from '../redux/actions'
 class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -23,9 +23,9 @@ class NavbarComponent extends React.Component {
                 <Collapse isOpen={this.state.openCollapse} navbar>
                     <Nav >
                         <NavItem>
-                            <NavLink style={{ color: "#2d3436", fontWeight: "bold" }}>
+                            <Link to="/products" className="nav-link" style={{ color: "#2d3436", fontWeight: "bold" }} >
                                 Products
-                            </NavLink>
+                            </Link>
                         </NavItem>
                         <NavItem>
                             <NavLink style={{ color: "#2d3436", fontWeight: "bold" }}>
@@ -45,22 +45,25 @@ class NavbarComponent extends React.Component {
                                         ?
                                         <DropdownMenu right>
                                             <DropdownItem>
-                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none" }}>
+                                                <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                     Cart
                                                 </Link>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
+                                                <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                     Transactions
                                                 </Link>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
+                                                <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                     Profile
                                                 </Link>
                                             </DropdownItem>
-                                            <DropdownItem divider/>
-                                            <DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem onClick={() => {
+                                                localStorage.removeItem("data");
+                                                this.props.logOutAction();
+                                            }}>
                                                 Keluar
                                             </DropdownItem>
                                         </DropdownMenu>
@@ -76,8 +79,11 @@ class NavbarComponent extends React.Component {
                                                     Transactions Management
                                                 </Link>
                                             </DropdownItem>
-                                            <DropdownItem divider/>
-                                            <DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem onClick={() => {
+                                                localStorage.removeItem("data");
+                                                this.props.logOutAction();
+                                            }}>
                                                 Keluar
                                             </DropdownItem>
                                         </DropdownMenu>
@@ -101,4 +107,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps)(NavbarComponent);
+export default connect(mapToProps, { logOutAction })(NavbarComponent);
