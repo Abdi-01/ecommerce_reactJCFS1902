@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { loginAction, getProductsAction } from './redux/actions'
 import ProductsPage from './pages/ProductsPage';
 import { API_URL } from './helper';
+import ProductDetail from './pages/ProductDetail';
 
 class App extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class App extends React.Component {
           <Route path="/auth-page" element={<AuthPage />} />
           <Route path="/product-management" element={<ProductManagement />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/product-detail" element={<ProductDetail />} />
         </Routes>
       </div>
     );
