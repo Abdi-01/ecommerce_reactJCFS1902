@@ -1,18 +1,22 @@
 import React from 'react';
-import { Card, CardBody, CardImg, CardTitle, Input } from 'reactstrap'
+import { Button, ButtonGroup, Card, CardBody, CardImg, CardTitle, Input } from 'reactstrap'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            page: 1
+        }
     }
 
     printProducts = () => {
-        return this.props.productsList.map((value, index) => {
+        let { page } = this.state
+        return this.props.productsList.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
             return <div className="col-3 mt-2">
                 <Card>
-                    <Link to={`/product-detail?id=${value.id}`}>
+                    <Link to={`/product-detail?id=${value.id}`}
+                        style={{ textDecoration: "none", color: "black" }}>
                         <CardImg top
                             src={value.images[0]}
                             width="100%"
@@ -20,7 +24,7 @@ class ProductsPage extends React.Component {
                         />
                         <CardBody>
                             <CardTitle tag="h5" style={{ fontWeight: "bolder" }}>{value.nama}</CardTitle>
-                            <CardTitle tag="h5" style={{ fontWeight: "bolder" }}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            <CardTitle tag="h6" style={{ fontWeight: "bold" }}>Rp. {value.harga.toLocaleString()}</CardTitle>
                         </CardBody>
                     </Link>
                 </Card>
@@ -28,19 +32,45 @@ class ProductsPage extends React.Component {
         })
     }
 
+    printBtPagination = () => {
+        // 1-8 data => 1 button
+        // 9-16 data => 2 button
+        // 17-24 data => 3 button
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.props.productsList.length / 8); i++) {
+            btn.push(<Button outline color="primary"
+                disabled={this.state.page == i + 1 ? true : false}
+                onClick={() => this.setState({ page: i + 1 })}>
+                {i + 1}
+            </Button>)
+        }
+        return btn;
+    }
+
     render() {
-        
+
         return (
-            <div className="container">
-                <Input type="select" style={{ width: "250px", float: "right" }}>
-                    <option value="harga-asc">Harga Asc</option>
-                    <option value="harga-desc">Harga Desc</option>
-                    <option value="nama-asc">A-Z</option>
-                    <option value="nama-desc">Z-A</option>
-                    <option value="id-asc">Reset</option>
-                </Input>
-                <div className="container row">
-                    {this.printProducts()}
+            <div className="pt-5">
+                <div className="container">
+                    <div style={{ display: "block" }}>
+                        <Input type="select" style={{ width: "250px", marginLeft: "auto" }}>
+                            <option value="harga-asc">Harga Asc</option>
+                            <option value="harga-desc">Harga Desc</option>
+                            <option value="nama-asc">A-Z</option>
+                            <option value="nama-desc">Z-A</option>
+                            <option value="id-asc">Reset</option>
+                        </Input>
+                    </div>
+                    <div className="row">
+                        {this.printProducts()}
+                    </div>
+                    <div className="my-5 text-center">
+                        <ButtonGroup>
+                            {
+                                this.printBtPagination()
+                            }
+                        </ButtonGroup>
+                    </div>
                 </div>
             </div>
         );
@@ -48,7 +78,7 @@ class ProductsPage extends React.Component {
 }
 
 const mapToProps = ({ productsReducer }) => {
-    console.table(productsReducer.productsList)
+    // console.table(productsReducer.productsList)
     return {
         productsList: productsReducer.productsList
     }
