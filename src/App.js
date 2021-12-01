@@ -23,7 +23,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.keepLogin()
-    this.getProducts()
+    this.props.getProductsAction()
   }
 
   keepLogin = async () => {
@@ -42,15 +42,6 @@ class App extends React.Component {
     } catch (error) {
       console.log(error)
     }
-  }
-
-  getProducts = () => {
-    axios.get(`${API_URL}/products`)
-      .then((response) => {
-        this.props.getProductsAction(response.data)
-      }).catch((error) => {
-        console.log(error)
-      })
   }
 
   render() {
