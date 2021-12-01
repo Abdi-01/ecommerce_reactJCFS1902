@@ -26,22 +26,21 @@ class App extends React.Component {
     this.getProducts()
   }
 
-  keepLogin = () => {
-    let local = localStorage.getItem("data");
-    if (local) {
-      // re-assign variable local dengan JSON parse
-      local = JSON.parse(local)
-      axios.get(`${API_URL}/users?email=${local.email}&password${local.password}`)
-        .then((res) => {
-          console.log("keepLogin berhasil ==>", res.data)
+  keepLogin = async () => {
+    try {
+      let local = localStorage.getItem("data");
+      if (local) {
+        // re-assign variable local dengan JSON parse
+        local = JSON.parse(local)
+        let res = await this.props.loginAction(local.email, local.password)
+        if (res.success) {
           this.setState({ loading: false })
-          this.props.loginAction(res.data[0])
-        }).catch((err) => {
-          this.setState({ loading: false })
-          console.log(err)
-        })
-    } else {
-      this.setState({ loading: false })
+        }
+      } else {
+        this.setState({ loading: false })
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
