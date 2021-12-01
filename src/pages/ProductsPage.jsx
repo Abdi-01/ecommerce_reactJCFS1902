@@ -50,6 +50,7 @@ class ProductsPage extends React.Component {
 
     btSearch = () => {
         this.props.getProductsAction(this.inSearchName.value)
+        this.setState({ page: 1 })
     }
 
     render() {
@@ -72,7 +73,7 @@ class ProductsPage extends React.Component {
                             <option value="nama-desc">Z-A</option>
                             <option value="id-asc">Reset</option>
                         </Input>
-                        <Button outline color="warning" onClick={this.props.getProductsAction}>Reset</Button>
+                        <Button outline color="warning" onClick={()=>this.props.getProductsAction()}>Reset</Button>
                     </div>
                     <div className="row">
                         {this.printProducts()}
