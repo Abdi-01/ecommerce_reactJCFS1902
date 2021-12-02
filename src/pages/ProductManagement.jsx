@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Table, Button } from 'reactstrap';
 import ModalEditProduct from '../components/ModalEditProduct';
 import ModalProduct from '../components/ModalProduct';
@@ -33,20 +34,20 @@ class ProductManagement extends Component {
     }
 
     printProduk = () => {
-        return this.state.productList.map((item, index) => {
+        return this.props.productsList.map((item, index) => {
             return <tr>
                 <td>{index + 1}</td>
                 <td style={{ width: '20vw', textAlign: 'center' }}>
                     {
-                        this.state.selectedIndex==index ?
-                        <img src={item.images[this.state.thumbnailIdx]} width="80%" alt={item.nama + index} />
-                        :
-                        <img src={item.images[0]} width="80%" alt={item.nama + index} />
+                        this.state.selectedIndex == index ?
+                            <img src={item.images[this.state.thumbnailIdx]} width="80%" alt={item.nama + index} />
+                            :
+                            <img src={item.images[0]} width="80%" alt={item.nama + index} />
                     }
                     <div>
                         {item.images.map((val, idx) => {
                             return <img src={val} width="20%" alt={item.nama + index}
-                                onClick={() => this.setState({ thumbnailIdx: idx, selectedIndex:index })} />
+                                onClick={() => this.setState({ thumbnailIdx: idx, selectedIndex: index })} />
                         })}
                     </div>
                 </td>
@@ -102,4 +103,10 @@ class ProductManagement extends Component {
     }
 }
 
-export default ProductManagement;
+const mapToProps = (state) => {
+    return {
+        productsList: state.productsReducer.productsList
+    }
+}
+
+export default connect(mapToProps)(ProductManagement);
