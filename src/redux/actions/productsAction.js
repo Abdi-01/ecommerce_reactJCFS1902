@@ -33,3 +33,18 @@ export const getProductsAction = (search = null) => {
         }
     }
 }
+
+export const getProductsSort = (sort) => {
+    return async (dispatch) => {
+        try {
+            let res = await axios.get(`${API_URL}/products?_sort=${sort.field}&_order=${sort.sortType}`)
+            dispatch({
+                type: "GET_DATA_PRODUCTS",
+                payload: res.data
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

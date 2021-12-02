@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup, Card, CardBody, CardImg, CardTitle, FormGroup, Input, InputGroup, InputGroupText, Label, Spinner } from 'reactstrap'
 import { connect } from 'react-redux';
-import { getProductsAction } from '../redux/actions'
+import { getProductsAction, getProductsSort } from '../redux/actions'
 import { Link } from 'react-router-dom';
 class ProductsPage extends React.Component {
     constructor(props) {
@@ -51,11 +51,7 @@ class ProductsPage extends React.Component {
     }
 
     btSearch = () => {
-        this.props.getProductsAction({
-            nama: this.inSearchName.value,
-            hargaMax: this.inSearchMax.value,
-            hargaMin: this.inSearchMin.value
-        })
+        this.props.getProductsAction()
         this.setState({ page: 1 })
     }
 
@@ -64,6 +60,13 @@ class ProductsPage extends React.Component {
         this.inSearchName.value = null
         this.inSearchMax.value = null
         this.inSearchMin.value = null
+    }
+
+    handleSort = (e) => {
+        this.props.getProductsSort({
+            field: e.target.value.split('-')[0],
+            sortType: e.target.value.split('-')[1]
+        })
     }
 
     render() {
@@ -88,7 +91,7 @@ class ProductsPage extends React.Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label>Sort</Label>
-                                <Input type="select" style={{ width: "250px" }}>
+                                <Input type="select" style={{ width: "250px" }} onChange={this.handleSort}>
                                     <option value="harga-asc">Harga Asc</option>
                                     <option value="harga-desc">Harga Desc</option>
                                     <option value="nama-asc">A-Z</option>
@@ -126,4 +129,4 @@ const mapToProps = ({ productsReducer }) => {
     }
 }
 
-export default connect(mapToProps, { getProductsAction })(ProductsPage);
+export default connect(mapToProps, { getProductsAction, getProductsSort })(ProductsPage);
