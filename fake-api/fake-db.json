@@ -350,31 +350,6 @@
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/938/0893875_PE718921_S4.jpg"
       ],
       "id": 13
-    },
-    {
-      "nama": "VITLÖK B",
-      "deskripsi": "Pot tanaman digalvanis agar terlindung dari karat.",
-      "brand": "IKEA",
-      "kategori": "Kotak bunga dengan penyangga",
-      "harga": 299000,
-      "stock": [
-        {
-          "id": null,
-          "type": "Type-1",
-          "qty": 12
-        },
-        {
-          "id": null,
-          "type": "Type-2",
-          "qty": 13
-        }
-      ],
-      "images": [
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954179_PE804202_S4.jpg"
-      ],
-      "id": 14
     }
   ]
 }

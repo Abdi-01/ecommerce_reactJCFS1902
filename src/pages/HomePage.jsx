@@ -98,13 +98,13 @@ class HomePage extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-12 order-md-2 col-md-7" style={{ padding: "auto 10%" }}>
-                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[13].nama}
+                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[12].nama}
                                     <br />
-                                    <span className="text-muted">{productsList[13].brand} | {productsList[13].kategori}</span></h2>
-                                <p>{productsList[11].deskripsi}</p>
+                                    <span className="text-muted">{productsList[12].brand} | {productsList[12].kategori}</span></h2>
+                                <p>{productsList[12].deskripsi}</p>
                             </div>
                             <div className="col-12 order-md-1 col-md-5">
-                                <img className="shadow bg-white" src={productsList[13].images[0]}
+                                <img className="shadow bg-white" src={productsList[12].images[0]}
                                     width="100%" alt="imgCtn" />
                             </div>
                         </div>

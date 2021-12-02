@@ -51,7 +51,11 @@ class ProductsPage extends React.Component {
     }
 
     btSearch = () => {
-        this.props.getProductsAction()
+        this.props.getProductsAction({
+            nama: this.inSearchName.value,
+            hargaMax: this.inSearchMax.value,
+            hargaMin: this.inSearchMin.value
+        })
         this.setState({ page: 1 })
     }
 

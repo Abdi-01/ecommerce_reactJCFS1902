@@ -40,3 +40,7 @@
 .nav-link-border{
   border-bottom: 2px solid #61dafb;
 }
+
+.modal-open{
+  padding: 0 !important;
+}
