@@ -6,7 +6,8 @@
       "email": "admin@mail.com",
       "password": "1234",
       "role": "admin",
-      "status": "Active"
+      "status": "Active",
+      "cart": []
     },
     {
       "username": "abdi",
@@ -14,7 +15,8 @@
       "password": "1234",
       "role": "user",
       "status": "Active",
-      "id": 2
+      "id": 2,
+      "cart": []
     },
     {
       "username": "edo",
@@ -22,7 +24,17 @@
       "password": "1234",
       "role": "user",
       "status": "Active",
-      "id": 3
+      "id": 3,
+      "cart": [
+        {
+          "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
+          "nama": "IDALINNEA D",
+          "brand": "IKEA",
+          "harga": 79000,
+          "type": "L",
+          "qty": 1
+        }
+      ]
     }
   ],
   "products": [

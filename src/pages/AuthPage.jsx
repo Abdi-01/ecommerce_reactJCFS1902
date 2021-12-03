@@ -47,7 +47,8 @@ class AuthPage extends React.Component {
                         email: this.emailRegis.value,
                         password: this.passwordRegis.value,
                         role: "user",
-                        status: "Active"
+                        status: "Active",
+                        cart: []
                     }).then((response) => {
                         this.setState({
                             toastOpen: true,
