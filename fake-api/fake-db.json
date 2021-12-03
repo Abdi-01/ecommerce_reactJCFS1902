@@ -32,7 +32,15 @@
           "brand": "IKEA",
           "harga": 79000,
           "type": "L",
-          "qty": 1
+          "qty": 10
+        },
+        {
+          "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/771/0677106_PE718920_S4.jpg",
+          "nama": "VARDAGEN",
+          "brand": "IKEA",
+          "harga": 599000,
+          "type": "R25",
+          "qty": 2
         }
       ]
     }
