@@ -49,7 +49,7 @@ export const logOutAction = () => {
 export const updateUserCart = (data, iduser) => {
     return async (dispatch) => {
         try {
-
+            console.log("test")
             let res = await axios.patch(`${API_URL}/users/${iduser}`, {
                 cart: data
             })
@@ -58,6 +58,8 @@ export const updateUserCart = (data, iduser) => {
                 type: "UPDATE_CART_USER",
                 payload: res.data.cart
             })
+
+            return { success: true, message: "Add to cart success" }
 
         } catch (error) {
             console.log(error)

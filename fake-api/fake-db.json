@@ -32,7 +32,7 @@
           "brand": "IKEA",
           "harga": 299000,
           "type": "Type-2",
-          "qty": 1
+          "qty": 3
         },
         {
           "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/390/0939002_PE794384_S4.jpg",
@@ -41,6 +41,14 @@
           "harga": 2499000,
           "type": "Brown",
           "qty": 7
+        },
+        {
+          "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955765_PE804101_S4.jpg",
+          "nama": "HAUGA V.2",
+          "brand": "Mr. DYI",
+          "harga": 1200000,
+          "type": "White",
+          "qty": 1
         }
       ]
     }

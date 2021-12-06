@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { API_URL } from '../helper';
 import { updateUserCart } from '../redux/actions';
-
+import { Navigate } from 'react-router-dom'
 class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -15,7 +15,8 @@ class ProductDetail extends React.Component {
             qty: 1,
             selectedType: {},
             toastOpen: false,
-            toastMsg: ""
+            toastMsg: "",
+            redirect: false
         }
     }
 
@@ -60,7 +61,7 @@ class ProductDetail extends React.Component {
         }
     }
 
-    onBtAddToCart = () => {
+    onBtAddToCart = async () => {
         let { selectedType, detail, qty } = this.state
         if (selectedType.type) {
             let dataCart = {
@@ -77,7 +78,10 @@ class ProductDetail extends React.Component {
             temp.push(dataCart);
 
             if (this.props.iduser) {
-                this.props.updateUserCart(temp, this.props.iduser);
+                let res = await this.props.updateUserCart(temp, this.props.iduser);
+                if (res.success) {
+                    this.setState({ redirect: true })
+                }
             } else {
                 this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Silahkan Login Terlebih Dahulu" })
             }
@@ -88,6 +92,9 @@ class ProductDetail extends React.Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Navigate to="/cart-user" />
+        }
         return (
             <div>
                 <div>
