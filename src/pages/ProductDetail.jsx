@@ -77,15 +77,7 @@ class ProductDetail extends React.Component {
             temp.push(dataCart);
 
             if (this.props.iduser) {
-                axios.patch(`${API_URL}/users/${this.props.iduser}`, {
-                    cart: temp
-                })
-                    .then((res) => {
-                        console.log("data cart", res.data)
-                        this.props.updateUserCart(res.data.cart)
-                    }).catch((err) => {
-                        console.log(err)
-                    })
+                this.props.updateUserCart(temp, this.props.iduser);
             } else {
                 this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Silahkan Login Terlebih Dahulu" })
             }

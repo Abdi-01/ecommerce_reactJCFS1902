@@ -50,14 +50,7 @@ class CartPage extends React.Component {
     onBtInc = (index) => {
         let temp = [...this.props.cart];
         temp[index].qty += 1
-        axios.patch(`${API_URL}/users/${this.props.iduser}`, {
-            cart: temp
-        })
-            .then((res) => {
-                this.props.updateUserCart(res.data.cart)
-            }).catch((err) => {
-                console.log(err)
-            })
+        this.props.updateUserCart(temp, this.props.iduser)
     }
 
     onBtDec = (index) => {
@@ -67,27 +60,13 @@ class CartPage extends React.Component {
         } else {
             temp.splice(index, 1)
         }
-        axios.patch(`${API_URL}/users/${this.props.iduser}`, {
-            cart: temp
-        })
-            .then((res) => {
-                this.props.updateUserCart(res.data.cart)
-            }).catch((err) => {
-                console.log(err)
-            })
+        this.props.updateUserCart(temp, this.props.iduser);
     }
 
     onBtRemove = (index) => {
         let temp = [...this.props.cart];
         temp.splice(index, 1)
-        axios.patch(`${API_URL}/users/${this.props.iduser}`, {
-            cart: temp
-        })
-            .then((res) => {
-                this.props.updateUserCart(res.data.cart)
-            }).catch((err) => {
-                console.log(err)
-            })
+        this.props.updateUserCart(temp, this.props.iduser);
     }
 
     totalPayment = () => {
