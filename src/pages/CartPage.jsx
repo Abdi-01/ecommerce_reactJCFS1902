@@ -94,6 +94,7 @@ class CartPage extends React.Component {
         })
             .then((res) => {
                 this.props.updateUserCart([], this.props.iduser)
+                this.setState({ ongkir: 0 })
             }).catch((err) => {
                 console.log(err)
             })
