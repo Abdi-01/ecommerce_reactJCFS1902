@@ -61,16 +61,14 @@ class NavbarComponent extends React.Component {
                                             this.props.role == "user"
                                                 ?
                                                 <DropdownMenu right>
-                                                    <DropdownItem>
-                                                        <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
+                                                    <Link to="/cart-user" style={{ color: "#2d3436", textDecoration: "none" }}>
+                                                        <DropdownItem>
                                                             Cart
-                                                        </Link>
-                                                    </DropdownItem>
-                                                    <DropdownItem>
-                                                        <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
-                                                            Transactions
-                                                        </Link>
-                                                    </DropdownItem>
+                                                        </DropdownItem>
+                                                    </Link>
+                                                    <Link to="/history-user" className="dropdown-item" style={{ color: "#2d3436", textDecoration: "none" }}>
+                                                        Transactions History
+                                                    </Link>
                                                     <DropdownItem>
                                                         <Link to="" style={{ color: "#2d3436", textDecoration: "none" }}>
                                                             Profile
@@ -86,16 +84,16 @@ class NavbarComponent extends React.Component {
                                                 </DropdownMenu>
                                                 :
                                                 <DropdownMenu right >
-                                                    <DropdownItem>
-                                                        <Link to="/product-management" style={{ color: "#2d3436" }} className="nav-link">
+                                                    <Link to="/product-management" style={{ color: "#2d3436" }} className="nav-link">
+                                                        <DropdownItem>
                                                             Products Management
-                                                        </Link>
-                                                    </DropdownItem>
-                                                    <DropdownItem>
-                                                        <Link to="/product-management" style={{ color: "#2d3436" }} className="nav-link">
+                                                        </DropdownItem>
+                                                    </Link>
+                                                    <Link to="/transaction-management" style={{ color: "#2d3436" }} className="nav-link">
+                                                        <DropdownItem>
                                                             Transactions Management
-                                                        </Link>
-                                                    </DropdownItem>
+                                                        </DropdownItem>
+                                                    </Link>
                                                     <DropdownItem divider />
                                                     <DropdownItem onClick={() => {
                                                         localStorage.removeItem("data");

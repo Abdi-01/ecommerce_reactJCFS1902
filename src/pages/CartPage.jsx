@@ -8,7 +8,9 @@ import { updateUserCart } from '../redux/actions';
 class CartPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            ongkir: 0
+        }
     }
 
     printCart = () => {
@@ -73,7 +75,28 @@ class CartPage extends React.Component {
         let total = 0;
 
         this.props.cart.forEach((value, index) => total += value.qty * value.harga)
-        return total
+        return total + this.state.ongkir
+    }
+
+    onBtCheckOut = () => {
+        let date = new Date()
+        // yang disimpan = iduser, username, invoice=#INV/ Date getTime(), date, note, total_payment, detail=array, status="Menunggu konfirmasi"
+        axios.post(`${API_URL}/userTransactions`, {
+            iduser: this.props.iduser,
+            username: this.props.username,
+            invoice: `#INV/${date.getTime()}`,
+            date: date.toLocaleString(),
+            note: this.note.value,
+            totalPayment: this.totalPayment(),
+            ongkir: parseInt(this.state.ongkir),
+            detail: [...this.props.cart],
+            status: "Menunggu Konfirmasi"
+        })
+            .then((res) => {
+                this.props.updateUserCart([], this.props.iduser)
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {
@@ -89,7 +112,7 @@ class CartPage extends React.Component {
                         <h2 style={{ fontWeight: 'bold' }}>Rp. {this.totalPayment()}</h2>
                         <FormGroup>
                             <Label for="ongkir">Biaya Pengiriman</Label>
-                            <Input type="text" id="ongkir" innerRef={elemen => this.ongkir = elemen} />
+                            <Input type="text" id="ongkir" onChange={(e) => this.setState({ ongkir: parseInt(e.target.value) })} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="note">Notes</Label>
@@ -108,7 +131,8 @@ class CartPage extends React.Component {
 const mapToProps = (state) => {
     return {
         cart: state.userReducer.cart,
-        iduser: state.userReducer.id
+        iduser: state.userReducer.id,
+        username: state.userReducer.username
     }
 }
 
