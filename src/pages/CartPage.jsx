@@ -40,7 +40,7 @@ class CartPage extends React.Component {
                             </div>
                             <h4>Rp {(value.harga * value.qty).toLocaleString()}</h4>
                         </div>
-                        <Button color="warning" style={{ border: 'none', float: 'right', marginLeft: "1vw" }} onClick={() => this.props.deleteCart(value.idcart, this.props.iduser)}>Remove</Button>
+                        <Button color="warning" style={{ border: 'none', float: 'right', marginLeft: "1vw" }} onClick={() => this.onBtRemove(index)}>Remove</Button>
                     </div>
                 </div>
             )
@@ -61,7 +61,40 @@ class CartPage extends React.Component {
     }
 
     onBtDec = (index) => {
+        let temp = [...this.props.cart];
+        if (temp[index].qty > 1) {
+            temp[index].qty -= 1
+        } else {
+            temp.splice(index, 1)
+        }
+        axios.patch(`${API_URL}/users/${this.props.iduser}`, {
+            cart: temp
+        })
+            .then((res) => {
+                this.props.updateUserCart(res.data.cart)
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
 
+    onBtRemove = (index) => {
+        let temp = [...this.props.cart];
+        temp.splice(index, 1)
+        axios.patch(`${API_URL}/users/${this.props.iduser}`, {
+            cart: temp
+        })
+            .then((res) => {
+                this.props.updateUserCart(res.data.cart)
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+
+    totalPayment = () => {
+        let total = 0;
+
+        this.props.cart.forEach((value, index) => total += value.qty * value.harga)
+        return total
     }
 
     render() {
@@ -74,7 +107,7 @@ class CartPage extends React.Component {
                 <div className="col-4">
                     <div className="shadow p-4 mb-3 bg-white rounded">
                         <h3 style={{}}>Total Payment</h3>
-                        <h2 style={{ fontWeight: 'bold' }}>Rp. 0</h2>
+                        <h2 style={{ fontWeight: 'bold' }}>Rp. {this.totalPayment()}</h2>
                         <FormGroup>
                             <Label for="ongkir">Biaya Pengiriman</Label>
                             <Input type="text" id="ongkir" innerRef={elemen => this.ongkir = elemen} />
