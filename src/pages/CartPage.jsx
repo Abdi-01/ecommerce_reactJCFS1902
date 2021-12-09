@@ -110,7 +110,7 @@ class CartPage extends React.Component {
                 <div className="col-4">
                     <div className="shadow p-4 mb-3 bg-white rounded">
                         <h3 style={{}}>Total Payment</h3>
-                        <h2 style={{ fontWeight: 'bold' }}>Rp. {this.totalPayment()}</h2>
+                        <h2 style={{ fontWeight: 'bold' }}>Rp. {this.totalPayment().toLocaleString()}</h2>
                         <FormGroup>
                             <Label for="ongkir">Biaya Pengiriman</Label>
                             <Input type="text" id="ongkir" onChange={(e) => this.setState({ ongkir: parseInt(e.target.value) })} />

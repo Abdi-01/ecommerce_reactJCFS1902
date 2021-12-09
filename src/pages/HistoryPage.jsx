@@ -10,7 +10,7 @@ class HistoryPage extends React.Component {
         this.state = {
             transaksi: [],
             openModal: false,
-            detail: {},
+            detail: null,
             selectedIdx: null
         }
     }
@@ -27,7 +27,7 @@ class HistoryPage extends React.Component {
 
     printHistory = () => {
         return this.state.transaksi.map((value, index) => {
-            return <div className="shadow pb-3 rounded">
+            return <div className="shadow pb-3 rounded mt-3">
                 <div className="shadow-sm p-2 bg-dark rounded" style={{ color: "white" }}>
                     <span>{value.date} <Badge color="warning">{value.status}</Badge> </span>
                     <b style={{ marginLeft: 20 }}>{value.invoice}</b>
@@ -61,12 +61,15 @@ class HistoryPage extends React.Component {
         return (
             <div className="container p-5">
                 {/* Modal detail transaksi */}
-                <ModalTransaksi
-                    dataTransaksi={this.state.detail}
-                    // dataTransaksi={this.state.transaksi[this.state.selectedIdx]}
-                    openModal={this.state.openModal}
-                    toggleModal={() => this.setState({ openModal: !this.state.openModal })}
-                />
+                {
+                    this.state.detail ?
+                        <ModalTransaksi
+                            dataTransaksi={this.state.detail}
+                            // dataTransaksi={this.state.transaksi[this.state.selectedIdx]}
+                            openModal={this.state.openModal}
+                            toggleModal={() => this.setState({ openModal: !this.state.openModal })}
+                        /> : null
+                }
                 <h1 className="mb-4">Histori Transaksi Anda</h1>
                 {this.printHistory()}
             </div>
