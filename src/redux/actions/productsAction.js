@@ -23,10 +23,26 @@ export const getProductsAction = (search = null) => {
             }
             // cara 2
             // res = await axios.get(`${API_URL}/products${search ? `?nama=${search}` : ``}`)
-
+            console.log("data products", res.data)
             dispatch({
                 type: "GET_DATA_PRODUCTS",
-                payload: res.data
+                payload: res.data.list_data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const getBrandCategory = () => {
+    return async (dispatch) => {
+        try {
+            let resBrand = await axios.get(`${API_URL}/products/brand`);
+            let resCategory = await axios.get(`${API_URL}/products/category`);
+            console.log("data products", { brand: resBrand.data.list_data, category: resCategory.data.list_data })
+            dispatch({
+                type: "GET_DATA_BRAND_CATEGORY",
+                payload: { brand: resBrand.data.list_data, category: resCategory.data.list_data }
             })
         } catch (error) {
             console.log(error)

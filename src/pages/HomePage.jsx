@@ -74,37 +74,37 @@ class HomePage extends React.Component {
                     <div className="container p-5">
                         <div className="row">
                             <div className="col-12 order-md-2 col-md-7" style={{ padding: "auto 10%" }}>
-                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[11].nama}
+                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[0].name}
                                     <br />
-                                    <span className="text-muted">{productsList[11].brand} | {productsList[11].kategori}</span></h2>
-                                <p>{productsList[11].deskripsi}</p>
+                                    <span className="text-muted">{productsList[0].brand_name} | {productsList[0].category}</span></h2>
+                                <p>{productsList[0].description}</p>
                             </div>
                             <div className="col-12 order-md-1 col-md-5">
-                                <img className="shadow bg-white" src={productsList[11].images[0]}
+                                <img className="shadow bg-white" src={productsList[0].images[0].url}
                                     width="100%" alt="imgCtn" />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-7" style={{ padding: "auto 10%" }}>
-                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[0].nama}
+                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[1].name}
                                     <br />
-                                    <span className="text-muted">{productsList[0].brand} | {productsList[0].kategori}</span></h2>
-                                <p>{productsList[0].deskripsi}</p>
+                                    <span className="text-muted">{productsList[1].brand_name} | {productsList[1].category}</span></h2>
+                                <p>{productsList[1].description}</p>
                             </div>
                             <div className="col-md-5">
-                                <img className="shadow bg-white" src={productsList[0].images[0]}
+                                <img className="shadow bg-white" src={productsList[1].images[0].url}
                                     width="100%" alt="imgCtn" />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-12 order-md-2 col-md-7" style={{ padding: "auto 10%" }}>
-                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[12].nama}
+                                <h2 style={{ fontSize: "50px", marginTop: "25%" }}>{productsList[2].name}
                                     <br />
-                                    <span className="text-muted">{productsList[12].brand} | {productsList[12].kategori}</span></h2>
-                                <p>{productsList[12].deskripsi}</p>
+                                    <span className="text-muted">{productsList[2].brand_name} | {productsList[2].category}</span></h2>
+                                <p>{productsList[2].description}</p>
                             </div>
                             <div className="col-12 order-md-1 col-md-5">
-                                <img className="shadow bg-white" src={productsList[12].images[0]}
+                                <img className="shadow bg-white" src={productsList[2].images[0].url}
                                     width="100%" alt="imgCtn" />
                             </div>
                         </div>

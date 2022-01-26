@@ -45,23 +45,23 @@ class ProductManagement extends Component {
                 <td style={{ width: '20vw', textAlign: 'center' }}>
                     {
                         this.state.selectedIndex == index ?
-                            <img src={item.images[this.state.thumbnailIdx]} width="80%" alt={item.nama + index} />
+                            <img src={item.images[this.state.thumbnailIdx]} width="80%" alt={item.name + index} />
                             :
-                            <img src={item.images[0]} width="80%" alt={item.nama + index} />
+                            <img src={item.images[0].url} width="80%" alt={item.name + index} />
                     }
                     <div>
                         {item.images.map((val, idx) => {
-                            return <img src={val} width="20%" alt={item.nama + index}
+                            return <img src={val.url} width="20%" alt={item.name + index}
                                 onClick={() => this.setState({ thumbnailIdx: idx, selectedIndex: index })} />
                         })}
                     </div>
                 </td>
-                <td>{item.nama}</td>
-                <td>{item.brand}</td>
-                <td>{item.kategori}</td>
-                <td>Rp. {item.harga.toLocaleString()}</td>
+                <td>{item.name}</td>
+                <td>{item.brand_name}</td>
+                <td>{item.category}</td>
+                <td>Rp. {item.price.toLocaleString()}</td>
                 <td><Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: item, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>
-                    <Button size="sm" color="danger" onClick={() => this.onBtDelete(item.id)}>Delete</Button></td>
+                    <Button size="sm" color="danger" onClick={() => this.onBtDelete(item.idproduct)}>Delete</Button></td>
             </tr>
         })
     }

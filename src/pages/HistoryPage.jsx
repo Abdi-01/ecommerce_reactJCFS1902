@@ -16,6 +16,10 @@ class HistoryPage extends React.Component {
     }
 
     componentDidMount() {
+        this.getTransaksiUser()
+    }
+
+    getTransaksiUser = () => {
         axios.get(`${API_URL}/userTransactions?iduser=${this.props.iduser}`)
             .then((res) => {
                 console.log(res.data)
@@ -27,9 +31,12 @@ class HistoryPage extends React.Component {
 
     printHistory = () => {
         return this.state.transaksi.map((value, index) => {
+            
+            let badgeColor = value.status.includes("Batal")?"danger":"warning"
+
             return <div className="shadow pb-3 rounded mt-3">
                 <div className="shadow-sm p-2 bg-dark rounded" style={{ color: "white" }}>
-                    <span>{value.date} <Badge color="warning">{value.status}</Badge> </span>
+                    <span>{value.date} <Badge color={badgeColor}>{value.status}</Badge> </span>
                     <b style={{ marginLeft: 20 }}>{value.invoice}</b>
                 </div>
                 <div className="row p-3">
@@ -47,7 +54,7 @@ class HistoryPage extends React.Component {
                     </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                    <Button color="danger" >Batalkan Pesanan</Button>
+                    <Button color="danger" type="button" onClick={() => this.onBtCancel(value.id)}>Batalkan Pesanan</Button>
                     <Button color="primary" outline style={{ border: "none" }}
                         onClick={() => this.setState({ openModal: !this.state.openModal, detail: value, selectedIdx: index })}>
                         Lihat Detail Produk
@@ -55,6 +62,18 @@ class HistoryPage extends React.Component {
                 </div>
             </div>
         })
+    }
+
+    onBtCancel = (id) => {
+        axios.patch(`${API_URL}/userTransactions/${id}`, {
+            status: "Pesanan Batal"
+        })
+            .then((res) => {
+                this.getTransaksiUser()
+                this.setState({ openModal: false, detail: null, selectedIdx: null })
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {
@@ -65,6 +84,7 @@ class HistoryPage extends React.Component {
                     this.state.detail ?
                         <ModalTransaksi
                             dataTransaksi={this.state.detail}
+                            onBtCancel={this.onBtCancel}
                             // dataTransaksi={this.state.transaksi[this.state.selectedIdx]}
                             openModal={this.state.openModal}
                             toggleModal={() => this.setState({ openModal: !this.state.openModal })}

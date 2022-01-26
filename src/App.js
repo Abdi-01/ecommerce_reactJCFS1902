@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 import ProductManagement from './pages/ProductManagement';
 import axios from 'axios';
 import { connect } from 'react-redux'
-import { loginAction, getProductsAction } from './redux/actions'
+import { loginAction, getProductsAction, keepAction, getBrandCategory } from './redux/actions'
 import ProductsPage from './pages/ProductsPage';
 import { API_URL } from './helper';
 import ProductDetail from './pages/ProductDetail';
@@ -28,21 +28,13 @@ class App extends React.Component {
   componentDidMount() {
     this.keepLogin()
     this.props.getProductsAction()
+    this.props.getBrandCategory()
   }
 
   keepLogin = async () => {
     try {
-      let local = localStorage.getItem("data");
-      if (local) {
-        // re-assign variable local dengan JSON parse
-        local = JSON.parse(local)
-        let res = await this.props.loginAction(local.email, local.password)
-        if (res.success) {
-          this.setState({ loading: false })
-        }
-      } else {
-        this.setState({ loading: false })
-      }
+      let res = await this.props.keepAction()
+      this.setState({ loading: false })
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })
@@ -87,4 +79,4 @@ const mapToProps = (state) => {
     role: state.userReducer.role
   }
 }
-export default connect(mapToProps, { loginAction, getProductsAction })(App);
+export default connect(mapToProps, { loginAction, getProductsAction, keepAction, getBrandCategory })(App);

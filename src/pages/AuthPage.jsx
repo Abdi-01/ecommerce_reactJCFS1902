@@ -42,20 +42,27 @@ class AuthPage extends React.Component {
         } else {
             if (this.passwordRegis.value == this.confPasswordRegis.value) {
                 if (this.emailRegis.value.includes("@")) {
-                    axios.post(`${API_URL}/users`, {
+                    axios.post(`${API_URL}/users/regis`, {
                         username: this.usernameRegis.value,
                         email: this.emailRegis.value,
                         password: this.passwordRegis.value,
-                        role: "user",
-                        status: "Active",
-                        cart: []
                     }).then((response) => {
-                        this.setState({
-                            toastOpen: true,
-                            toastHeader: "Register Status",
-                            toastIcon: "success",
-                            toastMessage: "Registrasi Berhasil ✅"
-                        })
+                        console.log(response.data)
+                        if (response.data.success) {
+                            this.setState({
+                                toastOpen: true,
+                                toastHeader: "Register Status",
+                                toastIcon: "success",
+                                toastMessage: "Registrasi Berhasil ✅"
+                            })
+                        } else {
+                            this.setState({
+                                toastOpen: true,
+                                toastHeader: "Register Warning",
+                                toastIcon: "warning",
+                                toastMessage: "Registrasi Gagal ❌"
+                            })
+                        }
                     }).catch((err) => {
                         console.log(err)
                     })
@@ -107,7 +114,7 @@ class AuthPage extends React.Component {
     }
 
     render() {
-        if (this.props.iduser) {
+        if (this.props.username) {
             // redirect ke page yang dituju
             return <Navigate to="/" />
         }
@@ -188,7 +195,7 @@ class AuthPage extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        iduser: state.userReducer.id
+        username: state.userReducer.username
     }
 }
 

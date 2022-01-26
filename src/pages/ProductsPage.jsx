@@ -17,17 +17,17 @@ class ProductsPage extends React.Component {
         return this.props.productsList.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
             return <div className="col-3 mt-3">
                 <Card className="shadow" style={{ border: "none" }}>
-                    <Link to={`/product-detail?id=${value.id}`}
+                    <Link to={`/product-detail?idproduct=${value.idproduct}`}
                         style={{ textDecoration: "none", color: "black" }}>
                         <CardImg top
-                            src={value.images[0]}
+                            src={value.images[0].url}
                             width="100%"
-                            alt={`${value.nama}-${index}`}
+                            alt={`${value.name}-${index}`}
                             className="shadow-sm"
                         />
                         <CardBody>
-                            <CardTitle tag="h5" style={{ fontWeight: "bolder" }}>{value.nama}</CardTitle>
-                            <CardTitle tag="h6" style={{ fontWeight: "bold" }}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                            <CardTitle tag="h5" style={{ fontWeight: "bolder" }}>{value.name}</CardTitle>
+                            <CardTitle tag="h6" style={{ fontWeight: "bold" }}>Rp. {value.price.toLocaleString()}</CardTitle>
                         </CardBody>
                     </Link>
                 </Card>

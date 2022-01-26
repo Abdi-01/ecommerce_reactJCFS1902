@@ -60,7 +60,9 @@ const ModalTransaksi = (props) => {
                                 </Card>
                                 <Card className="px-4 py-3 mt-2 rounded" style={{ border: "none" }}>
                                     <p style={{ fontWeight: "bold" }}>Detail Produk</p>
-                                    {printDetail()}
+                                    <div style={{ height: "30vh", overflow: "auto", overflowX: "hidden" }}>
+                                        {printDetail()}
+                                    </div>
                                 </Card>
                                 <Card className="px-4 py-3 mt-2 rounded" style={{ border: "none" }}>
                                     <p style={{ fontWeight: "bold" }}>Rincian Pembayaran</p>
@@ -86,7 +88,8 @@ const ModalTransaksi = (props) => {
                                     style={{ width: "100%" }}>
                                     Chat Penjual
                                 </Button>
-                                <Button outline size="lg" style={{ width: "100%" }}>Bantuan</Button>
+                                <Button outline className="my-2" size="lg" style={{ width: "100%" }}>Bantuan</Button>
+                                <Button outline color="danger" size="lg" style={{ width: "100%" }} type="button" onClick={() => props.onBtCancel(dataTransaksi.id)}>Batal</Button>
                             </div>
                         </div>
                         : <p style={{ textAlign: "center" }}> No Data ⚠️</p>
