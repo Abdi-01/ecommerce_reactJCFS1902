@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { API_URL } from '../helper';
-import { updateUserCart } from '../redux/actions';
+import { updateUserCart, addToCartAction } from '../redux/actions';
 import { Navigate } from 'react-router-dom'
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -64,21 +64,19 @@ class ProductDetail extends React.Component {
     onBtAddToCart = async () => {
         let { selectedType, detail, qty } = this.state
         if (selectedType.type) {
+            // iduser, idproduct, idstock,qty
             let dataCart = {
-                image: detail.images[0],
-                nama: detail.nama,
-                brand: detail.brand,
-                harga: detail.harga,
-                type: selectedType.type,
+                idproduct:detail.idproduct,
+                idstock:selectedType.idstock,
                 qty
             }
 
             // menggabungkan data cart sebelumnya dari reducer, dengan dataCart baru yg akan ditambahkan
-            let temp = [...this.props.cart];
-            temp.push(dataCart);
+            // let temp = [...this.props.cart];
+            // temp.push(dataCart);
 
-            if (this.props.iduser) {
-                let res = await this.props.updateUserCart(temp, this.props.iduser);
+            if (this.props.username) {
+                let res = await this.props.addToCartAction(dataCart);
                 if (res.success) {
                     this.setState({ redirect: true })
                 }
@@ -172,8 +170,8 @@ class ProductDetail extends React.Component {
 const mapToProps = (state) => {
     return {
         cart: state.userReducer.cart,
-        iduser: state.userReducer.id
+        username: state.userReducer.username
     }
 }
 
-export default connect(mapToProps, { updateUserCart })(ProductDetail);
+export default connect(mapToProps, { updateUserCart,addToCartAction })(ProductDetail);

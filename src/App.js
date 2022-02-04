@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 import ProductManagement from './pages/ProductManagement';
 import axios from 'axios';
 import { connect } from 'react-redux'
-import { loginAction, getProductsAction, keepAction, getBrandCategory } from './redux/actions'
+import { loginAction, getProductsAction, keepAction, getBrandCategory,getCartAction } from './redux/actions'
 import ProductsPage from './pages/ProductsPage';
 import { API_URL } from './helper';
 import ProductDetail from './pages/ProductDetail';
@@ -16,6 +16,7 @@ import CartPage from './pages/CartPage';
 import NotFoundPage from './pages/NotFound';
 import HistoryPage from './pages/HistoryPage';
 import TransactionAdminPage from './pages/TransactionManagement';
+import VerificationPage from './pages/VerificationPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,10 +35,13 @@ class App extends React.Component {
   keepLogin = async () => {
     try {
       let res = await this.props.keepAction()
+      if(res){
+        this.props.getCartAction()
+      }
       this.setState({ loading: false })
     } catch (error) {
-      console.log(error)
       this.setState({ loading: false })
+      console.log(error)
     }
   }
 
@@ -50,6 +54,7 @@ class App extends React.Component {
           <Route path="/auth-page" element={<AuthPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product-detail" element={<ProductDetail />} />
+          <Route path="/verification/:token" element={<VerificationPage />} />
 
           {
             this.props.role == "user" ?
@@ -79,4 +84,4 @@ const mapToProps = (state) => {
     role: state.userReducer.role
   }
 }
-export default connect(mapToProps, { loginAction, getProductsAction, keepAction, getBrandCategory })(App);
+export default connect(mapToProps, { loginAction, getProductsAction, keepAction, getBrandCategory, getCartAction })(App);

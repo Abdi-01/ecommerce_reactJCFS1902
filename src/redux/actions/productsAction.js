@@ -8,14 +8,14 @@ export const getProductsAction = (search = null) => {
             // cara 1
             console.log("cek", search)
             if (search) {
-                if (search.nama) {
-                    if (search.hargaMax > 0 && search.hargaMin > 0) {
-                        res = await axios.get(`${API_URL}/products?harga_gte=${search.hargaMin}&harga_lte=${search.hargaMax}&nama=${search.nama}`)
+                if (search.name) {
+                    if (search.priceMax > 0 && search.priceMin > 0) {
+                        res = await axios.get(`${API_URL}/products?price_min=${search.priceMin}&price_max=${search.priceMax}&name=${search.name}`)
                     } else {
-                        res = await axios.get(`${API_URL}/products?nama=${search.nama}`)
+                        res = await axios.get(`${API_URL}/products?name=${search.name}`)
                     }
                 } else {
-                    res = await axios.get(`${API_URL}/products?harga_gte=${search.hargaMin}&harga_lte=${search.hargaMax}`)
+                    res = await axios.get(`${API_URL}/products?price_min=${search.priceMin}&price_max=${search.priceMax}`)
                 }
             } else {
                 console.log("cek")
@@ -56,7 +56,7 @@ export const getProductsSort = (sort) => {
             let res = await axios.get(`${API_URL}/products?_sort=${sort.field}&_order=${sort.sortType}`)
             dispatch({
                 type: "GET_DATA_PRODUCTS",
-                payload: res.data
+                payload: res.data.list_data
             })
 
         } catch (error) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
-import { loginAction } from '../redux/actions';
+import { loginAction, getCartAction } from '../redux/actions';
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { API_URL } from '../helper';
@@ -116,6 +116,7 @@ class AuthPage extends React.Component {
     render() {
         if (this.props.username) {
             // redirect ke page yang dituju
+            this.props.getCartAction()
             return <Navigate to="/" />
         }
         return (
@@ -200,4 +201,4 @@ const mapToProps = (state) => {
 }
 
 
-export default connect(mapToProps, { loginAction })(AuthPage);
+export default connect(mapToProps, { loginAction,getCartAction })(AuthPage);

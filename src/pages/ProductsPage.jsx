@@ -52,9 +52,9 @@ class ProductsPage extends React.Component {
 
     btSearch = () => {
         this.props.getProductsAction({
-            nama: this.inSearchName.value,
-            hargaMax: this.inSearchMax.value,
-            hargaMin: this.inSearchMin.value
+            name: this.inSearchName.value,
+            priceMax: this.inSearchMax.value,
+            priceMin: this.inSearchMin.value
         })
         this.setState({ page: 1 })
     }
@@ -96,11 +96,11 @@ class ProductsPage extends React.Component {
                             <FormGroup>
                                 <Label>Sort</Label>
                                 <Input type="select" style={{ width: "250px" }} onChange={this.handleSort}>
-                                    <option value="harga-asc">Harga Asc</option>
-                                    <option value="harga-desc">Harga Desc</option>
-                                    <option value="nama-asc">A-Z</option>
-                                    <option value="nama-desc">Z-A</option>
-                                    <option value="id-asc">Reset</option>
+                                    <option value="price-asc">Harga Asc</option>
+                                    <option value="price-desc">Harga Desc</option>
+                                    <option value="name-asc">A-Z</option>
+                                    <option value="name-desc">Z-A</option>
+                                    <option value="idproduct-asc">Reset</option>
                                 </Input>
                             </FormGroup>
 

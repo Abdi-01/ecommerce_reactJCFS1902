@@ -2,15 +2,15 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-
-const API_URL = "http://localhost:2000"
-
+import { API_URL } from '../helper';
+import { getProductsAction } from '../redux/actions';
 class ModalProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             stocks: [],
-            images: []
+            images: [],
+            defaultImage: "https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg"
         }
     }
 
@@ -20,28 +20,38 @@ class ModalProduct extends React.Component {
 
 
     onBtAdd = () => {
+        let formData = new FormData();
         let data = {
-            nama: this.inNama.value,
             idbrand: parseInt(this.inBrand.value),
             idcategory: parseInt(this.inCategory.value),
+            name: this.inNama.value,
             description: this.inDeskripsi.value,
             price: parseInt(this.inHarga.value),
-            stocks: this.state.stocks,
-            images: this.state.images
+            stocks: this.state.stocks
         }
-        console.log(data)
-        // if (data.nama == "" || data.brand == "" || data.deskripsi == "" || data.kategori == "" || data.stock.length == 0 || data.images.length == 0) {
-        //     alert("Isi semua form")
-        // } else {
-        //     axios.post(API_URL + '/products', data)
-        //         .then(res => {
-        //             console.log(res.data)
-        //             this.props.getData()
-        //             alert('Add Product Success')
-        //         }).catch(err => {
-        //             console.log(err)
-        //         })
-        // }
+        console.log("New products :", data)
+        if (data.name == "" || data.idbrand == "" || data.description == "" || data.idcategory == "" || data.stocks.length == 0 || this.state.images.length == 0) {
+            alert("Isi semua form")
+        } else {
+            // menambahkan data kedalam formData
+            formData.append('data', JSON.stringify(data));
+
+            // menambahkan file image yang akan diupload
+            this.state.images.forEach(val => formData.append('images', val.file))
+
+            axios.post(API_URL + '/products', formData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('data')}`
+                }
+            })
+                .then(res => {
+                    console.log("cek add product", res.data)
+                    this.props.getProductsAction()
+                    alert('Add Product Success')
+                }).catch(err => {
+                    console.log(err)
+                })
+        }
     }
 
     onBtAddStock = () => {
@@ -78,15 +88,29 @@ class ModalProduct extends React.Component {
     printImages = () => {
         if (this.state.images.length > 0) {
             return this.state.images.map((item, index) => {
-                return <Row>
-                    <Col>
-                        <Input type="text" placeholder={`Images-${index + 1}`}
-                            onChange={(e) => this.handleImages(e, index)} />
-                    </Col>
-                    <Col>
-                        <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteImage(index)} style={{ cursor: 'pointer' }}>Delete</a>
-                    </Col>
-                </Row>
+                return <div className='col-4'>
+                    <a className="m-0 btn btn-danger btn-sm" onClick={() => this.onBtDeleteImage(index)}
+                        style={{ cursor: 'pointer', position: "relative", top:15, float:"right"}}>
+                        <span className="material-icons ">
+                            delete
+                        </span>
+                    </a>
+                    <img
+                        id="imagePreview"
+                        width="100%"
+                        src={item.file ? URL.createObjectURL(item.file) : this.state.defaultImage} />
+                    <Input className='p-1' type="file" placeholder={`Select Images-${index + 1}`}
+                        onChange={(e) => this.handleImages(e, index)} />
+                </div>
+                // return <Row>
+                //     <Col>
+                //         <Input type="file" placeholder={`Select Images-${index + 1}`}
+                //             onChange={(e) => this.handleImages(e, index)} />
+                //     </Col>
+                //     <Col>
+                //         <a className="btn btn-outline-danger" onClick={() => this.onBtDeleteImage(index)} style={{ cursor: 'pointer' }}>Delete</a>
+                //     </Col>
+                // </Row>
             })
         }
     }
@@ -103,8 +127,9 @@ class ModalProduct extends React.Component {
 
     // Untuk set value kedalam state.images
     handleImages = (e, index) => {
+        console.log(e.target.files[0])
         let temp = [...this.state.images]
-        temp[index] = e.target.value
+        temp[index] = { name: e.target.files[0].name, file: e.target.files[0] }
         this.setState({ images: temp })
     }
 
@@ -177,7 +202,9 @@ class ModalProduct extends React.Component {
                     <FormGroup>
                         <Label>Images</Label>
                         <Button outline color="success" type="button" size="sm" style={{ float: 'right' }} onClick={this.onBtAddImages} >Add Image</Button>
-                        {this.printImages()}
+                        <div className='row'>
+                            {this.printImages()}
+                        </div>
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>
@@ -196,4 +223,4 @@ const mapToProps = ({ productsReducer }) => {
     }
 }
 
-export default connect(mapToProps)(ModalProduct);
+export default connect(mapToProps, { getProductsAction })(ModalProduct);

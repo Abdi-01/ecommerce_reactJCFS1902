@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Input, Button, FormGroup, Label } from 'reactstrap';
 import { API_URL } from '../helper';
-import { updateUserCart } from '../redux/actions';
+import { updateUserCart, deleteCart } from '../redux/actions';
 
 class CartPage extends React.Component {
     constructor(props) {
@@ -18,11 +18,11 @@ class CartPage extends React.Component {
             return (
                 <div className="row shadow p-1 mb-3 bg-white rounded" >
                     <div className="col-md-2">
-                        <img src={value.image} width="100%" />
+                        <img src={value.url} width="100%" />
                     </div>
                     <div className="col-md-3 d-flex justify-content-center flex-column">
-                        <h5 style={{ fontWeight: 'bolder' }}>{value.nama}</h5>
-                        <h4 style={{ fontWeight: 'bolder' }}>Rp {value.harga.toLocaleString()}</h4>
+                        <h5 style={{ fontWeight: 'bolder' }}>{value.name}</h5>
+                        <h4 style={{ fontWeight: 'bolder' }}>Rp {value.price.toLocaleString()}</h4>
                     </div>
                     <div className="col-md-1 d-flex align-items-center">
                         <h5 style={{ fontWeight: 'bolder' }}>{value.type}</h5>
@@ -40,7 +40,7 @@ class CartPage extends React.Component {
                                     </span>
                                 </span>
                             </div>
-                            <h4>Rp {(value.harga * value.qty).toLocaleString()}</h4>
+                            <h4>Rp {value.total_price.toLocaleString()}</h4>
                         </div>
                         <Button color="warning" style={{ border: 'none', float: 'right', marginLeft: "1vw" }} onClick={() => this.onBtRemove(index)}>Remove</Button>
                     </div>
@@ -51,8 +51,10 @@ class CartPage extends React.Component {
 
     onBtInc = (index) => {
         let temp = [...this.props.cart];
-        temp[index].qty += 1
-        this.props.updateUserCart(temp, this.props.iduser)
+        if (temp[index].qty < temp[index].stock_qty) {
+            temp[index].qty += 1
+        }
+        this.props.updateUserCart(temp[index].idcart, temp[index].qty)
     }
 
     onBtDec = (index) => {
@@ -60,21 +62,20 @@ class CartPage extends React.Component {
         if (temp[index].qty > 1) {
             temp[index].qty -= 1
         } else {
-            temp.splice(index, 1)
+            this.props.deleteCart(temp[index].idcart);
         }
-        this.props.updateUserCart(temp, this.props.iduser);
+        this.props.updateUserCart(temp[index].idcart, temp[index].qty)
     }
 
     onBtRemove = (index) => {
         let temp = [...this.props.cart];
-        temp.splice(index, 1)
-        this.props.updateUserCart(temp, this.props.iduser);
+        this.props.deleteCart(temp[index].idcart);
     }
 
     totalPayment = () => {
         let total = 0;
 
-        this.props.cart.forEach((value, index) => total += value.qty * value.harga)
+        this.props.cart.forEach((value, index) => total += value.total_price)
         return total + this.state.ongkir
     }
 
@@ -130,11 +131,12 @@ class CartPage extends React.Component {
 }
 
 const mapToProps = (state) => {
+    console.log(state.transactionsReducer.carts);
     return {
-        cart: state.userReducer.cart,
+        cart: state.transactionsReducer.carts,
         iduser: state.userReducer.id,
         username: state.userReducer.username
     }
 }
 
-export default connect(mapToProps, { updateUserCart })(CartPage);
+export default connect(mapToProps, { updateUserCart, deleteCart })(CartPage);

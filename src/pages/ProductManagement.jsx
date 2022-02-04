@@ -57,7 +57,7 @@ class ProductManagement extends Component {
                     </div>
                 </td>
                 <td>{item.name}</td>
-                <td>{item.brand_name}</td>
+                <td>{item.brand}</td>
                 <td>{item.category}</td>
                 <td>Rp. {item.price.toLocaleString()}</td>
                 <td><Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: item, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>

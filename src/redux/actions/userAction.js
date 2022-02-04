@@ -53,6 +53,7 @@ export const keepAction = () => {
                         'Authorization': `Bearer ${token}`
                     }
                 })
+                
                 if (res.data.success) {
                     localStorage.setItem("data", res.data.dataLogin.token)
                     // dispatch : meneruskan data kereducer
@@ -69,29 +70,15 @@ export const keepAction = () => {
     }
 }
 
-export const logOutAction = () => {
-    return {
-        type: "LOGOUT"
+export const verifyAction=(dataLogin)=>{
+    return{
+        type: "LOGIN_SUCCESS",
+        payload: dataLogin
     }
 }
 
-export const updateUserCart = (data, iduser) => {
-    return async (dispatch, getState) => {
-        try {
-            console.log("test")
-            let res = await axios.patch(`${API_URL}/users/${iduser}`, {
-                cart: data
-            })
-
-            dispatch({
-                type: "UPDATE_CART_USER",
-                payload: res.data.cart
-            })
-
-            return { success: true, message: "Add to cart success" }
-
-        } catch (error) {
-            console.log(error)
-        }
+export const logOutAction = () => {
+    return {
+        type: "LOGOUT"
     }
 }

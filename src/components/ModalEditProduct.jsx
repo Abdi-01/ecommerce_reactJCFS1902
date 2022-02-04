@@ -8,7 +8,7 @@ class ModalEditProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stock: [],
+            stocks: [],
             images: [],
             edit: false
         }
@@ -42,20 +42,23 @@ class ModalEditProduct extends React.Component {
 
     btSave = () => {
         let data = {
-            nama: this.inNama.value,
-            brand: this.inBrand.value,
-            kategori: this.inKategori.value,
-            deskripsi: this.inDeskripsi.value,
-            harga: this.inHarga.value,
-            stock: this.state.stock.length == 0 ? this.props.detailProduk.stock : this.state.stock,
+            ...this.props.detailProduk,
+            name: this.inNama.value,
+            idbrand: parseInt(this.inBrand.value),
+            idcategory: parseInt(this.inCategory.value),
+            description: this.inDeskripsi.value,
+            price: parseInt(this.inHarga.value),
+            stocks: this.state.stocks.length == 0 ? this.props.detailProduk.stock : this.state.stocks,
             images: this.state.images.length == 0 ? this.props.detailProduk.images : this.state.images
         }
         console.log("TESTING SAVE :", data)
-        axios.patch(`${API_URL}/products/${this.props.detailProduk.id}`, data)
+        axios.patch(`${API_URL}/products/${this.props.detailProduk.idproduct}`, data)
             .then((res) => {
-                this.props.getProductsAction();
-                this.props.btClose()
-                this.setState({ stock: [], images: [], edit: !this.state.edit })
+                if (res.data.success) {
+                    this.props.getProductsAction();
+                    this.props.btClose()
+                    this.setState({ stock: [], images: [], edit: !this.state.edit })
+                }
             }).catch((err) => {
                 console.log(err)
             })
@@ -63,24 +66,25 @@ class ModalEditProduct extends React.Component {
 
     handleImages = (e, index) => {
         let temp = [...this.props.detailProduk.images]
-        temp[index] = e.target.value
+        temp[index].url = e.target.value
         this.setState({ images: temp })
     }
 
     handleType = (e, index) => {
-        let temp = [...this.props.detailProduk.stock];
+        let temp = [...this.props.detailProduk.stocks];
         temp[index].type = e.target.value
-        this.setState({ stock: temp })
+        this.setState({ stocks: temp })
     }
 
     handleStock = (e, index) => {
-        let temp = [...this.props.detailProduk.stock];
-        temp[index].stock = e.target.value
-        this.setState({ stock: temp })
+        let temp = [...this.props.detailProduk.stocks];
+        temp[index].qty = parseInt(e.target.value)
+        this.setState({ stocks: temp })
     }
 
     render() {
-        let { name, description, brand_name, category, price } = this.props.detailProduk
+        let { name, description, idbrand, idcategory, price } = this.props.detailProduk
+        console.log(this.props.detailProduk)
         return (
             <Modal isOpen={this.props.modalOpen} toggle={this.props.btClose} >
                 <ModalHeader toggle={this.props.btClose}>Detail Product</ModalHeader>
@@ -97,13 +101,23 @@ class ModalEditProduct extends React.Component {
                         <Col>
                             <FormGroup>
                                 <Label for="textBrand">Brand</Label>
-                                <Input disabled={!this.state.edit} type="text" defaultValue={brand_name} id="textBrand" innerRef={elemen => this.inBrand = elemen} />
+                                <Input disabled={!this.state.edit} type="select" id="selectBrand" defaultValue={idbrand} innerRef={elemen => this.inBrand = elemen} >
+                                    <option value={null} >Choose...</option>
+                                    {
+                                        this.props.brandList.map((val, index) => <option value={val.idbrand} key={val.idbrand}>{val.brand}</option>)
+                                    }
+                                </Input>
                             </FormGroup>
                         </Col>
                         <Col>
                             <FormGroup>
                                 <Label for="textKategori">Kategori</Label>
-                                <Input disabled={!this.state.edit} type="text" defaultValue={category} id="textKategori" innerRef={elemen => this.inKategori = elemen} />
+                                <Input disabled={!this.state.edit} type="select" id="selectBrand" defaultValue={idcategory} innerRef={elemen => this.inCategory = elemen}>
+                                    <option value={null} >Choose...</option>
+                                    {
+                                        this.props.categoryList.map((val, index) => <option value={val.idcategory} key={val.idcategory}>{val.category}</option>)
+                                    }
+                                </Input>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -135,5 +149,11 @@ class ModalEditProduct extends React.Component {
         );
     }
 }
+const mapToProps = ({ productsReducer }) => {
+    return {
+        brandList: productsReducer.brand,
+        categoryList: productsReducer.category
+    }
+}
 
-export default connect(null, { getProductsAction })(ModalEditProduct);
+export default connect(mapToProps, { getProductsAction })(ModalEditProduct);
